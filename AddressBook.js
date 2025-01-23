@@ -1,72 +1,7 @@
-"use strict";
 // // use case 1.
-// import * as readlineSync from 'readline-sync';
-Object.defineProperty(exports, "__esModule", { value: true });
-// interface Data {
-//   fName:string;
-//   lName:String;
-//   address:string;
-//   city:string;
-//   state:string;
-//   zip:string;
-//   phoneNumber:string;
-//   email:string
-// }
-// const contacts:Data[]=[]
-// const contact:Data={
-//   fName:"kuber",
-//   lName:"Seth",
-//   address:"123 Model Town",
-//   city:"Patiala",
-//   state:"Punjab",
-//   zip:"1234",
-//   phoneNumber:"79541365",
-//   email:"kuber@gmial.com"
-// }
-// contacts.push(contact)
-// console.log(contact);
-//Use Case 2
-// import * as readlineSync from 'readline-sync'
-// interface Data {
-//   fName: string;
-//   lName: string;
-//   address: string;
-//   city: string;
-//   state: string;
-//   zip: string;
-//   phoneNumber: string;
-//   email: string;
-// }
-// const contacts: Data[] = [];
-// function addContact(): Data {
-//   const fName = readline.question('Enter First Name: ');
-//   const lName = readline.question('Enter Last Name: ');
-//   const address = readline.question('Enter Address: ');
-//   const city = readline.question('Enter City: ');
-//   const state = readline.question('Enter State: ');
-//   const zip = readline.question('Enter Zip Code: ');
-//   const phoneNumber = readline.question('Enter Phone Number: ');
-//   const email = readline.question('Enter Email Address: ');
-//   const newContact: Data = {
-//     fName,
-//     lName,
-//     address,
-//     city,
-//     state,
-//     zip,
-//     phoneNumber,
-//     email,
-//   };
-//   return newContact;
-// }
-// const newContact = addContact();
-// contacts.push(newContact);
-// console.log('Contact added successfully!');
-// console.log(newContact);
-// use case 3
-var readline = require("readline-sync");
-var contacts = [];
-function addContact() {
+//  import * as readlineSync from 'readline-sync';
+var contact = [];
+function addContacts() {
     var fName = readline.question('Enter First Name: ');
     var lName = readline.question('Enter Last Name: ');
     var address = readline.question('Enter Address: ');
@@ -106,7 +41,17 @@ function editContact(fName, lName) {
         console.log("Contact not found for ".concat(fName, " ").concat(lName));
     }
 }
-//Add sample contacts (you can remove this later)
+function deleteContact(fName, lName) {
+    var index = contacts.findIndex(function (contact) { return contact.fName === fName && contact.lName === lName; });
+    if (index !== -1) {
+        contacts.splice(index, 1);
+        console.log("Contact ".concat(fName, " ").concat(lName, " deleted successfully."));
+    }
+    else {
+        console.log("Contact ".concat(fName, " ").concat(lName, " not found."));
+    }
+}
+// Add sample contacts (you can remove this later)
 contacts.push({
     fName: "John",
     lName: "Doe",
@@ -127,7 +72,7 @@ contacts.push({
     phoneNumber: "555-456-7890",
     email: "jane.doe@example.com",
 });
-//Get user input for editing
-var fNameToEdit = readline.question('Enter First Name of contact to edit: ');
-var lNameToEdit = readline.question('Enter Last Name of contact to edit: ');
-editContact(fNameToEdit, lNameToEdit);
+// Get user input for deleting
+var fNameToDelete = readline.question('Enter First Name of contact to delete: ');
+var lNameToDelete = readline.question('Enter Last Name of contact to delete: ');
+deleteContact(fNameToDelete, lNameToDelete);

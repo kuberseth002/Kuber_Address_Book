@@ -28,3 +28,6 @@ const contact:Data={
 contacts.push(contact)
 
 console.log(contact);
+
+
+//Use Case 2

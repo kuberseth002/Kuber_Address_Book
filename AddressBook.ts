@@ -154,7 +154,113 @@
 
 // import * as readlineSync from 'readline-sync';
 
-interface Data {
+// interface Data {
+//   fName: string;
+//   lName: string;
+//   address: string;
+//   city: string;
+//   state: string;
+//   zip: string;
+//   phoneNumber: string;
+//   email: string;
+// }
+
+// const contact: Data[] = [];
+
+// function addContacts(): Data {
+//   const fName = readline.question('Enter First Name: ');
+//   const lName = readline.question('Enter Last Name: ');
+//   const address = readline.question('Enter Address: ');
+//   const city = readline.question('Enter City: ');
+//   const state = readline.question('Enter State: ');
+//   const zip = readline.question('Enter Zip Code: ');
+//   const phoneNumber = readline.question('Enter Phone Number: ');
+//   const email = readline.question('Enter Email Address: ');
+
+//   const newContact: Data = {
+//     fName,
+//     lName,
+//     address,
+//     city,
+//     state,
+//     zip,
+//     phoneNumber,
+//     email,
+//   };
+
+//   return newContact;
+// }
+
+// function findContactByName(fName: string, lName: string): Data | undefined {
+//   return contacts.find((contact) => contact.fName === fName && contact.lName === lName);
+// }
+
+// function editContact(fName: string, lName: string): void {
+//   const contactToEdit = findContactByName(fName, lName);
+
+//   if (contactToEdit) {
+//     console.log(`Editing contact for ${fName} ${lName}`);
+
+//     contactToEdit.address = readline.question('Enter new Address: ', { defaultInput: contactToEdit.address });
+//     contactToEdit.city = readline.question('Enter new City: ', { defaultInput: contactToEdit.city });
+//     contactToEdit.state = readline.question('Enter new State: ', { defaultInput: contactToEdit.state });
+//     contactToEdit.zip = readline.question('Enter new Zip Code: ', { defaultInput: contactToEdit.zip });
+//     contactToEdit.phoneNumber = readline.question('Enter new Phone Number: ', { defaultInput: contactToEdit.phoneNumber });
+//     contactToEdit.email = readline.question('Enter new Email Address: ', { defaultInput: contactToEdit.email });
+
+//     console.log('Contact updated successfully!');
+//   } else {
+//     console.log(`Contact not found for ${fName} ${lName}`);
+//   }
+// }
+
+// function deleteContact(fName: string, lName: string): void {
+//   const index = contacts.findIndex((contact) => contact.fName === fName && contact.lName === lName);
+
+//   if (index !== -1) {
+//     contacts.splice(index, 1);
+//     console.log(`Contact ${fName} ${lName} deleted successfully.`);
+//   } else {
+//     console.log(`Contact ${fName} ${lName} not found.`);
+//   }
+// }
+
+// // Add sample contacts (you can remove this later)
+// contacts.push({
+//   fName: "John",
+//   lName: "Doe",
+//   address: "123 Main St",
+//   city: "Anytown",
+//   state: "CA",
+//   zip: "12345",
+//   phoneNumber: "555-123-4567",
+//   email: "john.doe@example.com",
+// });
+
+// contacts.push({
+//   fName: "Jane",
+//   lName: "Doe",
+//   address: "456 Oak Ave",
+//   city: "Anytown",
+//   state: "CA",
+//   zip: "56789",
+//   phoneNumber: "555-456-7890",
+//   email: "jane.doe@example.com",
+// });
+
+// // Get user input for deleting
+// const fNameToDelete = readline.question('Enter First Name of contact to delete: ');
+// const lNameToDelete = readline.question('Enter Last Name of contact to delete: ');
+
+// deleteContact(fNameToDelete, lNameToDelete);
+
+
+// use case 5
+
+
+import * as readline from 'readline-sync';
+
+interface Contact {
   fName: string;
   lName: string;
   address: string;
@@ -165,91 +271,63 @@ interface Data {
   email: string;
 }
 
-const contact: Data[] = [];
+class AddressBook {
+  private contacts: Contact[] = [];
 
-function addContacts(): Data {
-  const fName = readline.question('Enter First Name: ');
-  const lName = readline.question('Enter Last Name: ');
-  const address = readline.question('Enter Address: ');
-  const city = readline.question('Enter City: ');
-  const state = readline.question('Enter State: ');
-  const zip = readline.question('Enter Zip Code: ');
-  const phoneNumber = readline.question('Enter Phone Number: ');
-  const email = readline.question('Enter Email Address: ');
+  addContact(): void {
+    const fName = readline.question('Enter First Name: ');
+    const lName = readline.question('Enter Last Name: ');
+    const address = readline.question('Enter Address: ');
+    const city = readline.question('Enter City: ');
+    const state = readline.question('Enter State: ');
+    const zip = readline.question('Enter Zip Code: ');
+    const phoneNumber = readline.question('Enter Phone Number: ');
+    const email = readline.question('Enter Email Address: ');
 
-  const newContact: Data = {
-    fName,
-    lName,
-    address,
-    city,
-    state,
-    zip,
-    phoneNumber,
-    email,
-  };
+    const newContact: Contact = {
+      fName,
+      lName,
+      address,
+      city,
+      state,
+      zip,
+      phoneNumber,
+      email,
+    };
 
-  return newContact;
-}
+    this.contacts.push(newContact);
+    console.log('Contact added successfully!');
+  }
 
-function findContactByName(fName: string, lName: string): Data | undefined {
-  return contacts.find((contact) => contact.fName === fName && contact.lName === lName);
-}
-
-function editContact(fName: string, lName: string): void {
-  const contactToEdit = findContactByName(fName, lName);
-
-  if (contactToEdit) {
-    console.log(`Editing contact for ${fName} ${lName}`);
-
-    contactToEdit.address = readline.question('Enter new Address: ', { defaultInput: contactToEdit.address });
-    contactToEdit.city = readline.question('Enter new City: ', { defaultInput: contactToEdit.city });
-    contactToEdit.state = readline.question('Enter new State: ', { defaultInput: contactToEdit.state });
-    contactToEdit.zip = readline.question('Enter new Zip Code: ', { defaultInput: contactToEdit.zip });
-    contactToEdit.phoneNumber = readline.question('Enter new Phone Number: ', { defaultInput: contactToEdit.phoneNumber });
-    contactToEdit.email = readline.question('Enter new Email Address: ', { defaultInput: contactToEdit.email });
-
-    console.log('Contact updated successfully!');
-  } else {
-    console.log(`Contact not found for ${fName} ${lName}`);
+  listContacts(): void {
+    if (this.contacts.length === 0) {
+      console.log('No contacts found.');
+    } else {
+      console.log('Contacts:');
+      this.contacts.forEach((contact, index) => {
+        console.log(`${index + 1}. ${contact.fName} ${contact.lName}`);
+      });
+    }
   }
 }
 
-function deleteContact(fName: string, lName: string): void {
-  const index = contacts.findIndex((contact) => contact.fName === fName && contact.lName === lName);
+const addressBook = new AddressBook();
 
-  if (index !== -1) {
-    contacts.splice(index, 1);
-    console.log(`Contact ${fName} ${lName} deleted successfully.`);
-  } else {
-    console.log(`Contact ${fName} ${lName} not found.`);
+while (true) {
+  console.log('\nSelect an option:\n1. Add Contact\n2. List Contacts\n3. Exit');
+  const choice = readline.question('Enter your choice: ');
+
+  switch (choice) {
+    case '1':
+      addressBook.addContact();
+      break;
+    case '2':
+      addressBook.listContacts();
+      break;
+    case '3':
+      console.log('Exiting...');
+      process.exit(0);
+    default:
+      console.log('Invalid choice. Please try again.');
   }
 }
-
-// Add sample contacts (you can remove this later)
-contacts.push({
-  fName: "John",
-  lName: "Doe",
-  address: "123 Main St",
-  city: "Anytown",
-  state: "CA",
-  zip: "12345",
-  phoneNumber: "555-123-4567",
-  email: "john.doe@example.com",
-});
-
-contacts.push({
-  fName: "Jane",
-  lName: "Doe",
-  address: "456 Oak Ave",
-  city: "Anytown",
-  state: "CA",
-  zip: "56789",
-  phoneNumber: "555-456-7890",
-  email: "jane.doe@example.com",
-});
-
-// Get user input for deleting
-const fNameToDelete = readline.question('Enter First Name of contact to delete: ');
-const lNameToDelete = readline.question('Enter Last Name of contact to delete: ');
-
-deleteContact(fNameToDelete, lNameToDelete);

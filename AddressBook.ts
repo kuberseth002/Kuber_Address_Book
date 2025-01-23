@@ -148,3 +148,7 @@ const fNameToEdit = readline.question('Enter First Name of contact to edit: ');
 const lNameToEdit = readline.question('Enter Last Name of contact to edit: ');
 
 editContact(fNameToEdit, lNameToEdit);
+
+
+//Use case 4
+

@@ -1,5 +1,5 @@
 // // use case 1.
-import * as readlineSync from 'readline-sync';
+// import * as readlineSync from 'readline-sync';
 
 // interface Data {
 //   fName:string;
@@ -32,45 +32,47 @@ import * as readlineSync from 'readline-sync';
 
 //Use Case 2
 
-interface Data {
-  fName: string;
-  lName: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  phoneNumber: string;
-  email: string;
-}
+// import * as readlineSync from 'readline-sync'
 
-const contacts: Data[] = [];
+// interface Data {
+//   fName: string;
+//   lName: string;
+//   address: string;
+//   city: string;
+//   state: string;
+//   zip: string;
+//   phoneNumber: string;
+//   email: string;
+// }
 
-function addContact(): Data {
-  const fName = readline.question('Enter First Name: ');
-  const lName = readline.question('Enter Last Name: ');
-  const address = readline.question('Enter Address: ');
-  const city = readline.question('Enter City: ');
-  const state = readline.question('Enter State: ');
-  const zip = readline.question('Enter Zip Code: ');
-  const phoneNumber = readline.question('Enter Phone Number: ');
-  const email = readline.question('Enter Email Address: ');
+// const contacts: Data[] = [];
 
-  const newContact: Data = {
-    fName,
-    lName,
-    address,
-    city,
-    state,
-    zip,
-    phoneNumber,
-    email,
-  };
+// function addContact(): Data {
+//   const fName = readline.question('Enter First Name: ');
+//   const lName = readline.question('Enter Last Name: ');
+//   const address = readline.question('Enter Address: ');
+//   const city = readline.question('Enter City: ');
+//   const state = readline.question('Enter State: ');
+//   const zip = readline.question('Enter Zip Code: ');
+//   const phoneNumber = readline.question('Enter Phone Number: ');
+//   const email = readline.question('Enter Email Address: ');
 
-  return newContact;
-}
+//   const newContact: Data = {
+//     fName,
+//     lName,
+//     address,
+//     city,
+//     state,
+//     zip,
+//     phoneNumber,
+//     email,
+//   };
 
-const newContact = addContact();
-contacts.push(newContact);
+//   return newContact;
+// }
 
-console.log('Contact added successfully!');
-console.log(newContact);
+// const newContact = addContact();
+// contacts.push(newContact);
+
+// console.log('Contact added successfully!');
+// console.log(newContact);

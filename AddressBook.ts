@@ -787,7 +787,7 @@ while (true) {
 */
 
 //use case 10
-
+/*
 import * as readline from 'readline-sync';
 
 interface Contact {
@@ -853,5 +853,188 @@ class AddressBook {
           console.log(`${index + 1}. ${contact.fName} ${contact.lName}`);
         });
     }
+  }
+}
+*/
+
+//use case 11
+
+import * as readline from 'readline-sync';
+
+interface Contact {
+  fName: string;
+  lName: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phoneNumber: string;
+  email: string;
+}
+
+class AddressBook {
+  private contacts: Contact[] = [];
+
+  constructor(public name: string) {}
+
+  addContact(): void {
+    const fName = readline.question('Enter First Name: ');
+    const lName = readline.question('Enter Last Name: ');
+
+    // Check for duplicate contact within the same address book
+    if (this.contacts.some((contact) => contact.fName === fName && contact.lName === lName)) {
+      console.log(`Contact with the name ${fName} ${lName} already exists in this address book.`);
+      return;
+    }
+
+    const address = readline.question('Enter Address: ');
+    const city = readline.question('Enter City: ');
+    const state = readline.question('Enter State: ');
+    const zip = readline.question('Enter Zip Code: ');
+    const phoneNumber = readline.question('Enter Phone Number: ');
+    const email = readline.question('Enter Email Address: ');
+
+    const newContact: Contact = {
+      fName,
+      lName,
+      address,
+      city,
+      state,
+      zip,
+      phoneNumber,
+      email,
+    };
+
+    this.contacts.push(newContact);
+    console.log('Contact added successfully!');
+  }
+
+  listContacts(sortBy: string = 'name'): void {
+    if (this.contacts.length === 0) {
+      console.log('No contacts found.');
+    } else {
+      console.log(`Contacts in ${this.name}:`);
+
+      let sortedContacts: Contact[] = [];
+
+      switch (sortBy) {
+        case 'name':
+          sortedContacts = this.contacts.sort((a, b) => {
+            const fullA = `${a.fName} ${a.lName}`;
+            const fullB = `${b.fName} ${b.lName}`;
+            return fullA.localeCompare(fullB);
+          });
+          break;
+        case 'city':
+          sortedContacts = this.contacts.sort((a, b) => a.city.localeCompare(b.city));
+          break;
+        case 'state':
+          sortedContacts = this.contacts.sort((a, b) => a.state.localeCompare(b.state));
+          break;
+        case 'zip':
+          sortedContacts = this.contacts.sort((a, b) => a.zip.localeCompare(b.zip));
+          break;
+        default:
+          sortedContacts = this.contacts; // No sorting
+      }
+
+      sortedContacts.forEach((contact, index) => {
+        console.log(`${index + 1}. ${contact.fName} ${contact.lName}`);
+      });
+    }
+  }
+
+  findContactsByCityOrState(city: string, state: string): Contact[] {
+    return this.contacts.filter(
+      (contact) => contact.city.toLowerCase() === city.toLowerCase() || contact.state.toLowerCase() === state.toLowerCase()
+    );
+  }
+}
+
+const addressBooks: Map<string, AddressBook> = new Map();
+
+while (true) {
+  console.log('\nSelect an option:\n1. Create New Address Book\n2. Select Address Book\n3. View Contacts by City/State\n4. Exit');
+  const choice = readline.question('Enter your choice: ');
+
+  switch (choice) {
+    case '1':
+      const addressBookName = readline.question('Enter Address Book Name: ');
+      if (!addressBooks.has(addressBookName)) {
+        addressBooks.set(addressBookName, new AddressBook(addressBookName));
+        console.log(`Address Book '${addressBookName}' created successfully.`);
+      } else {
+        console.log(`Address Book '${addressBookName}' already exists.`);
+      }
+      break;
+    case '2':
+      const selectedBook = readline.question('Enter Address Book Name to select: ');
+      if (addressBooks.has(selectedBook)) {
+        const selectedAddressBook = addressBooks.get(selectedBook)!; 
+
+        while (true) {
+          console.log(`\nSelected Address Book: ${selectedBook}`);
+          console.log('Select an option:\n1. Add Contact\n2. List Contacts (by Name)\n3. List Contacts (by City)\n4. List Contacts (by State)\n5. List Contacts (by Zip)\n6. Back');
+          const innerChoice = readline.question('Enter your choice: ');
+
+          switch (innerChoice) {
+            case '1':
+              selectedAddressBook.addContact();
+              break;
+            case '2':
+              selectedAddressBook.listContacts('name');
+              break;
+            case '3':
+              selectedAddressBook.listContacts('city');
+              break;
+            case '4':
+              selectedAddressBook.listContacts('state');
+              break;
+            case '5':
+              selectedAddressBook.listContacts('zip');
+              break;
+            case '6':
+              break; // Go back to main menu
+            default:
+              console.log('Invalid choice. Please try again.');
+          }
+
+          if (innerChoice === '6') {
+            break; // Exit inner loop
+          }
+        }
+      } else {
+        console.log(`Address Book '${selectedBook}' not found.`);
+      }
+      break;
+    case '3':
+      const searchCity = readline.question('Enter City (or leave blank): ');
+      const searchState = readline.question('Enter State (or leave blank): ');
+
+      if (searchCity === '' && searchState === '') {
+        console.log('Please enter either City or State.');
+        break;
+      }
+
+      let foundContacts: Contact[] = [];
+
+      for (const [addressBookName, addressBook] of addressBooks) {
+        foundContacts = foundContacts.concat(addressBook.findContactsByCityOrState(searchCity, searchState));
+      }
+
+      if (foundContacts.length > 0) {
+        console.log('Contacts found:');
+        foundContacts.forEach((contact, index) => {
+          console.log(`${index + 1}. ${contact.fName} ${contact.lName} - ${contact.city}, ${contact.state}`);
+        });
+      } else {
+        console.log('No contacts found in the specified city or state.');
+      }
+      break;
+    case '4':
+      console.log('Exiting...');
+      process.exit(0);
+    default:
+      console.log('Invalid choice. Please try again.');
   }
 }

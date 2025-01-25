@@ -571,6 +571,114 @@
 
 //use case 8
 
+// import * as readline from 'readline-sync';
+
+// interface Contact {
+//   fName: string;
+//   lName: string;
+//   address: string;
+//   city: string;
+//   state: string;
+//   zip: string;
+//   phoneNumber: string;
+//   email: string;
+// }
+
+// class AddressBook {
+//   private contacts: Contact[] = [];
+
+//   constructor(public name: string) {}
+
+//   addContact(): void {
+//     const fName = readline.question('Enter First Name: ');
+//     const lName = readline.question('Enter Last Name: ');
+
+//     // Check for duplicate contact within the same address book
+//     if (this.contacts.some((contact) => contact.fName === fName && contact.lName === lName)) {
+//       console.log(`Contact with the name ${fName} ${lName} already exists in this address book.`);
+//       return;
+//     }
+
+//     const address = readline.question('Enter Address: ');
+//     const city = readline.question('Enter City: ');
+//     const state = readline.question('Enter State: ');
+//     const zip = readline.question('Enter Zip Code: ');
+//     const phoneNumber = readline.question('Enter Phone Number: ');
+//     const email = readline.question('Enter Email Address: ');
+
+//     const newContact: Contact = {
+//       fName,
+//       lName,
+//       address,
+//       city,
+//       state,
+//       zip,
+//       phoneNumber,
+//       email,
+//     };
+
+//     this.contacts.push(newContact);
+//     console.log('Contact added successfully!');
+//   }
+
+//   listContacts(): void {
+//     if (this.contacts.length === 0) {
+//       console.log('No contacts found.');
+//     } else {
+//       console.log(`Contacts in ${this.name}:`);
+//       this.contacts.forEach((contact, index) => {
+//         console.log(`${index + 1}. ${contact.fName} ${contact.lName}`);
+//       });
+//     }
+//   }
+
+//   findContactsByCityOrState(city: string, state: string): Contact[] {
+//     return this.contacts.filter(
+//       (contact) => contact.city.toLowerCase() === city.toLowerCase() || contact.state.toLowerCase() === state.toLowerCase()
+//     );
+//   }
+// }
+
+// const addressBooks: Map<string, AddressBook> = new Map();
+
+// while (true) {
+//   console.log('\nSelect an option:\n1. Create New Address Book\n2. Select Address Book\n3. Search Contacts\n4. Exit');
+//   const choice = readline.question('Enter your choice: ');
+
+//   switch (choice) {
+//     case '1':
+//       break;
+//     case '2':
+//       break;
+//     case '3':
+//       const searchCity = readline.question('Enter City');
+//       const searchState = readline.question('Enter State');
+
+//       let foundContacts: Contact[] = [];
+
+//       for (const [addressBookName, addressBook] of addressBooks) {
+//         foundContacts = foundContacts.concat(addressBook.findContactsByCityOrState(searchCity, searchState));
+//       }
+
+//       if (foundContacts.length > 0) {
+//         console.log('Contacts found:');
+//         foundContacts.forEach((contact, index) => {
+//           console.log(`${index + 1}. ${contact.fName} ${contact.lName} - ${contact.city}, ${contact.state}`);
+//         });
+//       } else {
+//         console.log('No contacts found in the specified city or state.');
+//       }
+//       break;
+//     case '4':
+//       console.log('Exiting...');
+//       process.exit(0);
+//     default:
+//       console.log('Invalid choice. Please try again.');
+//   }
+// }
+
+//use case 9
+
 import * as readline from 'readline-sync';
 
 interface Contact {
@@ -592,13 +700,6 @@ class AddressBook {
   addContact(): void {
     const fName = readline.question('Enter First Name: ');
     const lName = readline.question('Enter Last Name: ');
-
-    // Check for duplicate contact within the same address book
-    if (this.contacts.some((contact) => contact.fName === fName && contact.lName === lName)) {
-      console.log(`Contact with the name ${fName} ${lName} already exists in this address book.`);
-      return;
-    }
-
     const address = readline.question('Enter Address: ');
     const city = readline.question('Enter City: ');
     const state = readline.question('Enter State: ');
@@ -621,17 +722,7 @@ class AddressBook {
     console.log('Contact added successfully!');
   }
 
-  listContacts(): void {
-    if (this.contacts.length === 0) {
-      console.log('No contacts found.');
-    } else {
-      console.log(`Contacts in ${this.name}:`);
-      this.contacts.forEach((contact, index) => {
-        console.log(`${index + 1}. ${contact.fName} ${contact.lName}`);
-      });
-    }
-  }
-
+ 
   findContactsByCityOrState(city: string, state: string): Contact[] {
     return this.contacts.filter(
       (contact) => contact.city.toLowerCase() === city.toLowerCase() || contact.state.toLowerCase() === state.toLowerCase()
@@ -642,32 +733,52 @@ class AddressBook {
 const addressBooks: Map<string, AddressBook> = new Map();
 
 while (true) {
-  console.log('\nSelect an option:\n1. Create New Address Book\n2. Select Address Book\n3. Search Contacts\n4. Exit');
+  console.log('\nSelect an option:\n1. Create New Address Book\n2. Select Address Book\n3. View Contacts by City/State\n4. Exit');
   const choice = readline.question('Enter your choice: ');
 
   switch (choice) {
     case '1':
+      const addressBookName = readline.question('Enter Address Book Name: ');
+      if (!addressBooks.has(addressBookName)) {
+        addressBooks.set(addressBookName, new AddressBook(addressBookName));
+        console.log(`Address Book '${addressBookName}' created successfully.`);
+      } else {
+        console.log(`Address Book '${addressBookName}' already exists.`);
+      }
       break;
     case '2':
+      const selectedBook = readline.question('Enter Address Book Name to select: ');
+      if (addressBooks.has(selectedBook)) {
+        const selectedAddressBook = addressBooks.get(selectedBook)!; 
+
+        while (true) {
+          console.log(`\nSelected Address Book: ${selectedBook}`);
+          console.log('Select an option:\n1. Add Contact\n2. List Contacts\n3. Back');
+          const innerChoice = readline.question('Enter your choice: ');
+
+          switch (innerChoice) {
+            case '1':
+              selectedAddressBook.addContact();
+              break;
+            case '2':
+              selectedAddressBook.listContacts();
+              break;
+            case '3':
+              break; // Go back to main menu
+            default:
+              console.log('Invalid choice. Please try again.');
+          }
+
+          if (innerChoice === '3') {
+            break; // Exit inner loop
+          }
+        }
+      } else {
+        console.log(`Address Book '${selectedBook}' not found.`);
+      }
       break;
     case '3':
-      const searchCity = readline.question('Enter City');
-      const searchState = readline.question('Enter State');
-
-      let foundContacts: Contact[] = [];
-
-      for (const [addressBookName, addressBook] of addressBooks) {
-        foundContacts = foundContacts.concat(addressBook.findContactsByCityOrState(searchCity, searchState));
-      }
-
-      if (foundContacts.length > 0) {
-        console.log('Contacts found:');
-        foundContacts.forEach((contact, index) => {
-          console.log(`${index + 1}. ${contact.fName} ${contact.lName} - ${contact.city}, ${contact.state}`);
-        });
-      } else {
-        console.log('No contacts found in the specified city or state.');
-      }
+      // ... (View Contacts by City/State logic as before)
       break;
     case '4':
       console.log('Exiting...');
